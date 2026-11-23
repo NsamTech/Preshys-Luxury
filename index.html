@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Preshy's Luxury | Christmas Hair Sales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red-deep: #5E0A13;
+    --red: #A3121F;
+    --gold: #D9A94A;
+    --gold-light: #F3D98B;
+    --cream: #FFF7EC;
+    --ink: #241412;
+    --muted: #5a4640;
+    --serif: "Playfair Display", Georgia, serif;
+    --sans: "Jost", system-ui, sans-serif;
+    --pad: clamp(18px, 5vw, 64px);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font-family: var(--sans); font-size: 1.0625rem; line-height: 1.6; color: var(--ink); background: var(--cream); }
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+  h1, h2, h3 { font-family: var(--serif); color: var(--red-deep); line-height: 1.1; margin: 0; }
+
+  button, .button {
+    font: inherit; cursor: pointer; border: 0; border-radius: 999px;
+    padding: 12px 24px; background: var(--red-deep); color: var(--gold-light);
+    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+  }
+  button:disabled { opacity: 0.45; cursor: not-allowed; }
+  .button.gold, button.gold { background: linear-gradient(180deg, var(--gold-light), var(--gold)); color: var(--red-deep); }
+  button.ghost { background: transparent; color: var(--red-deep); border: 1px solid var(--red-deep); }
+
+  /* Header */
+  header { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px var(--pad); background: var(--red-deep); color: var(--gold-light); }
+  .brand { font-family: var(--serif); font-weight: 800; font-size: 1.4rem; color: var(--gold-light); text-decoration: none; }
+  .brand span { font-style: italic; font-weight: 500; color: var(--gold); }
+  .cart-btn { background: var(--gold); color: var(--red-deep); padding: 10px 18px; }
+  .cart-count { background: var(--red-deep); color: var(--gold-light); border-radius: 999px; padding: 0 8px; font-size: 0.85rem; }
+
+  /* Hero */
+  .hero { padding: clamp(44px, 7vw, 90px) var(--pad); background: radial-gradient(circle at 85% 15%, rgba(217,169,74,0.25), transparent 40%), var(--red); color: var(--cream); display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 32px; align-items: center; }
+  .hero h1 { color: var(--cream); font-size: clamp(2.6rem, 6vw, 4.4rem); margin-bottom: 14px; }
+  .hero h1 em { color: var(--gold-light); font-weight: 500; }
+  .hero .tagline { font-family: var(--serif); font-style: italic; color: var(--gold-light); font-size: 1.2rem; margin: 0 0 16px; }
+  .hero p { max-width: 38ch; opacity: 0.95; margin: 0 0 24px; }
+  .ticket { background: var(--cream); color: var(--ink); border: 2px solid var(--gold); border-radius: 18px; padding: 24px 26px; justify-self: center; width: 100%; max-width: 360px; }
+  .ticket p { margin: 0; }
+  .ticket .label { font-size: 0.9rem; color: var(--red); }
+  .ticket .value { font-family: var(--serif); font-weight: 800; font-size: 1.45rem; color: var(--red-deep); margin: 2px 0 14px; }
+  .ticket .value:last-child { margin-bottom: 0; }
+
+  /* Sections */
+  section.block { padding: clamp(48px, 7vw, 90px) var(--pad); }
+  .section-head { margin-bottom: 28px; }
+  .section-head h2 { font-size: clamp(2rem, 4vw, 2.6rem); margin-bottom: 8px; }
+  .section-head p { margin: 0; color: var(--muted); }
+
+  /* Filters */
+  .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 26px; }
+  .filters button { background: transparent; color: var(--red-deep); border: 1px solid var(--red-deep); padding: 8px 18px; }
+  .filters button[aria-pressed="true"] { background: var(--red-deep); color: var(--gold-light); }
+
+  /* Products */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 24px; }
+  .product { background: #fff; border: 1px solid #ecd9bf; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
+  .product .photo { aspect-ratio: 3 / 4; background: linear-gradient(160deg, #3b2a27, #120a09); display: flex; align-items: center; justify-content: center; color: var(--gold-light); font-family: var(--serif); font-size: 1.3rem; }
+  .product .photo img { width: 100%; height: 100%; object-fit: cover; }
+  .product .body { padding: 18px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .product h3 { font-size: 1.3rem; }
+  .product .meta { color: var(--muted); font-size: 0.95rem; margin: 0; }
+  .product .price { font-family: var(--serif); font-weight: 800; font-size: 1.35rem; color: var(--red); margin: 6px 0 10px; }
+  .product .stock { font-size: 0.85rem; color: var(--muted); margin: 0; }
+  .product button { margin-top: auto; width: 100%; justify-content: center; }
+  .empty { color: var(--muted); padding: 40px 0; }
+
+  /* Features */
+  .features { background: var(--ink); color: var(--cream); }
+  .features h2 { color: var(--gold-light); }
+  .feature-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px 32px; }
+  .feature-list li { padding-bottom: 14px; border-bottom: 1px solid rgba(243,217,139,0.25); }
+
+  /* Drawer and dialog */
+  .scrim { position: fixed; inset: 0; background: rgba(20,8,8,0.55); display: none; z-index: 30; }
+  .scrim.open { display: block; }
+  .drawer { position: fixed; top: 0; right: 0; height: 100%; width: min(420px, 100%); background: var(--cream); z-index: 40; transform: translateX(100%); transition: transform 0.3s ease; display: flex; flex-direction: column; box-shadow: -8px 0 24px rgba(0,0,0,0.2); }
+  .drawer.open { transform: translateX(0); }
+  .drawer header { position: static; }
+  .drawer-body { padding: 20px; overflow-y: auto; flex: 1; }
+  .drawer-foot { padding: 20px; border-top: 1px solid #ecd9bf; background: #fff; }
+  .line { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid #ecd9bf; }
+  .line p { margin: 0; }
+  .qty { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+  .qty button { padding: 2px 12px; background: var(--red-deep); }
+  .qty .remove { background: transparent; color: var(--red); padding: 2px 6px; text-decoration: underline; }
+  .total { display: flex; justify-content: space-between; font-family: var(--serif); font-size: 1.3rem; margin-bottom: 14px; }
+  .drawer-foot button { width: 100%; justify-content: center; }
+
+  dialog { border: 0; border-radius: 18px; padding: 0; width: min(520px, calc(100% - 32px)); background: var(--cream); color: var(--ink); }
+  dialog::backdrop { background: rgba(20,8,8,0.6); }
+  dialog form, .dialog-body { padding: 26px; display: grid; gap: 14px; }
+  dialog label { display: grid; gap: 6px; font-size: 0.95rem; color: var(--muted); }
+  dialog input, dialog textarea { font: inherit; font-size: 1rem; padding: 11px 13px; border: 1px solid #d9c3a4; border-radius: 10px; background: #fff; color: var(--ink); }
+  dialog textarea { min-height: 70px; resize: vertical; }
+  .error { color: var(--red); font-size: 0.92rem; margin: 0; }
+  .bank { background: #fff; border: 1px solid #ecd9bf; border-radius: 12px; padding: 14px 16px; }
+  .bank p { margin: 4px 0; }
+  .dialog-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; }
+
+  footer { padding: 26px var(--pad); background: var(--red-deep); color: var(--gold-light); font-size: 0.92rem; display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; }
+
+  @media (max-width: 800px) {
+    .hero { grid-template-columns: 1fr; }
+    .ticket { justify-self: start; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .drawer { transition: none; } }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="brand" href="#top">Preshy's <span>Luxury</span></a>
+  <button class="cart-btn" id="openCart" aria-controls="drawer">Cart <span class="cart-count" id="cartCount">0</span></button>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div>
+      <h1>Christmas <em>Hair Sales</em></h1>
+      <p class="tagline">Look good, feel luxurious.</p>
+      <p>Get your Christmas hair from Preshy's Luxury at discounted prices, made for your festive look.</p>
+      <a class="button gold" href="#shop">Shop now</a>
+    </div>
+    <aside class="ticket" id="saleTicket" aria-label="Sale dates">
+      <p class="label">Sales period</p>
+      <p class="value" id="salePeriod"></p>
+      <p class="label">Delivery date</p>
+      <p class="value" id="saleDelivery"></p>
+    </aside>
+  </div>
+
+  <section class="block" id="shop">
+    <div class="section-head">
+      <h2>Shop the collection</h2>
+      <p>Choose your texture, add to cart, then check out on WhatsApp.</p>
+    </div>
+    <div class="filters" id="filters" role="group" aria-label="Filter by texture"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="block features">
+    <div class="section-head"><h2>Why Preshy's</h2></div>
+    <ul class="feature-list">
+      <li>Premium quality hair</li>
+      <li>Affordable prices</li>
+      <li>Long lasting</li>
+      <li>Soft and silky</li>
+      <li>Various textures</li>
+      <li>Fast and reliable service</li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <span>Preshy's Luxury &middot; Hair &middot; Beauty &middot; Confidence</span>
+  <span id="footerSale"></span>
+</footer>
+
+<div class="scrim" id="scrim"></div>
+
+<aside class="drawer" id="drawer" aria-label="Shopping cart">
+  <header>
+    <span class="brand" style="font-size:1.2rem">Your cart</span>
+    <button class="ghost" style="color:var(--gold-light);border-color:var(--gold-light)" id="closeCart">Close</button>
+  </header>
+  <div class="drawer-body" id="cartItems"></div>
+  <div class="drawer-foot">
+    <div class="total"><span>Total</span><span id="cartTotal">₦0</span></div>
+    <button class="gold" id="checkoutBtn">Checkout</button>
+  </div>
+</aside>
+
+<dialog id="checkoutDialog" aria-labelledby="checkoutTitle">
+  <form id="checkoutForm" novalidate>
+    <h2 id="checkoutTitle">Your details</h2>
+    <label>Full name
+      <input name="name" autocomplete="name" required>
+    </label>
+    <label>Phone number
+      <input name="phone" type="tel" autocomplete="tel" required>
+    </label>
+    <label>Delivery address
+      <textarea name="address" autocomplete="street-address" required></textarea>
+    </label>
+    <p class="error" id="formError" hidden></p>
+    <div class="dialog-actions">
+      <button type="button" class="ghost" id="cancelCheckout">Back to cart</button>
+      <button type="submit" class="gold">Continue</button>
+    </div>
+  </form>
+  <div class="dialog-body" id="confirmBody" hidden></div>
+</dialog>
+
+<script src="products.js"></script>
+<script>
+(function () {
+  const S = window.SHOP;
+  const money = n => "₦" + Number(n).toLocaleString("en-NG");
+  const $ = id => document.getElementById(id);
+
+  let activeTexture = "All";
+  let cart = [];
+  try { cart = JSON.parse(localStorage.getItem("preshy-cart") || "[]"); } catch (e) { cart = []; }
+
+  function saveCart() {
+    try { localStorage.setItem("preshy-cart", JSON.stringify(cart)); } catch (e) {}
+  }
+
+  // Sale details
+  $("salePeriod").textContent = S.sale.period;
+  $("saleDelivery").textContent = S.sale.delivery;
+  $("footerSale").textContent = "Sales " + S.sale.period + " · Delivery " + S.sale.delivery;
+
+  // Filters
+  const textures = ["All"].concat([...new Set(S.products.map(p => p.texture))]);
+  function renderFilters() {
+    const wrap = $("filters");
+    wrap.textContent = "";
+    textures.forEach(t => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = t;
+      b.setAttribute("aria-pressed", String(t === activeTexture));
+      b.addEventListener("click", () => { activeTexture = t; renderFilters(); renderProducts(); });
+      wrap.appendChild(b);
+    });
+  }
+
+  // Products
+  function renderProducts() {
+    const grid = $("grid");
+    grid.textContent = "";
+    const list = S.products.filter(p => p.available && (activeTexture === "All" || p.texture === activeTexture));
+    if (!list.length) {
+      const e = document.createElement("p");
+      e.className = "empty";
+      e.textContent = "No hair available in this range right now.";
+      grid.appendChild(e);
+      return;
+    }
+    list.forEach(p => {
+      const card = document.createElement("article");
+      card.className = "product";
+
+      const photo = document.createElement("div");
+      photo.className = "photo";
+      if (p.image) {
+        const img = document.createElement("img");
+        img.src = p.image;
+        img.alt = p.name;
+        photo.appendChild(img);
+      } else {
+        photo.textContent = p.texture;
+      }
+
+      const body = document.createElement("div");
+      body.className = "body";
+      const h = document.createElement("h3");
+      h.textContent = p.name;
+      const meta = document.createElement("p");
+      meta.className = "meta";
+      meta.textContent = p.texture + " · " + p.length;
+      const price = document.createElement("p");
+      price.className = "price";
+      price.textContent = money(p.price);
+      const stock = document.createElement("p");
+      stock.className = "stock";
+      const inCart = cart.find(c => c.id === p.id);
+      const left = p.stock - (inCart ? inCart.qty : 0);
+      stock.textContent = left > 0 ? left + " left" : "Sold out";
+
+      const add = document.createElement("button");
+      add.type = "button";
+      add.className = "gold";
+      add.textContent = left > 0 ? "Add to cart" : "Sold out";
+      add.disabled = left <= 0;
+      add.addEventListener("click", () => addToCart(p.id));
+
+      body.append(h, meta, price, stock, add);
+      card.append(photo, body);
+      grid.appendChild(card);
+    });
+  }
+
+  // Cart
+  function addToCart(id) {
+    const p = S.products.find(x => x.id === id);
+    if (!p) return;
+    const item = cart.find(c => c.id === id);
+    const qty = item ? item.qty : 0;
+    if (qty >= p.stock) return;
+    if (item) item.qty += 1; else cart.push({ id: id, qty: 1 });
+    saveCart();
+    refreshCart();
+  }
+
+  function changeQty(id, delta) {
+    const item = cart.find(c => c.id === id);
+    const p = S.products.find(x => x.id === id);
+    if (!item || !p) return;
+    item.qty += delta;
+    if (item.qty > p.stock) item.qty = p.stock;
+    if (item.qty <= 0) cart = cart.filter(c => c.id !== id);
+    saveCart();
+    refreshCart();
+  }
+
+  function cartLines() {
+    return cart
+      .map(c => {
+        const p = S.products.find(x => x.id === c.id);
+        return p ? { product: p, qty: c.qty, subtotal: p.price * c.qty } : null;
+      })
+      .filter(Boolean);
+  }
+
+  function renderCart() {
+    const wrap = $("cartItems");
+    wrap.textContent = "";
+    const lines = cartLines();
+    if (!lines.length) {
+      const e = document.createElement("p");
+      e.textContent = "Your cart is empty. Add some hair to get started.";
+      wrap.appendChild(e);
+    }
+    lines.forEach(l => {
+      const row = document.createElement("div");
+      row.className = "line";
+      const left = document.createElement("div");
+      const name = document.createElement("p");
+      name.textContent = l.product.name;
+      const sub = document.createElement("p");
+      sub.style.color = "var(--muted)";
+      sub.style.fontSize = "0.9rem";
+      sub.textContent = money(l.product.price) + " each";
+      const qty = document.createElement("div");
+      qty.className = "qty";
+      const minus = document.createElement("button");
+      minus.type = "button"; minus.textContent = "−"; minus.setAttribute("aria-label", "Reduce quantity");
+      minus.addEventListener("click", () => changeQty(l.product.id, -1));
+      const count = document.createElement("span");
+      count.textContent = l.qty;
+      const plus = document.createElement("button");
+      plus.type = "button"; plus.textContent = "+"; plus.setAttribute("aria-label", "Increase quantity");
+      plus.disabled = l.qty >= l.product.stock;
+      plus.addEventListener("click", () => changeQty(l.product.id, 1));
+      const remove = document.createElement("button");
+      remove.type = "button"; remove.className = "remove"; remove.textContent = "Remove";
+      remove.addEventListener("click", () => {
+        cart = cart.filter(c => c.id !== l.product.id); saveCart(); refreshCart();
+      });
+      qty.append(minus, count, plus, remove);
+      left.append(name, sub, qty);
+      const right = document.createElement("p");
+      right.textContent = money(l.subtotal);
+      row.append(left, right);
+      wrap.appendChild(row);
+    });
+    const total = lines.reduce((s, l) => s + l.subtotal, 0);
+    $("cartTotal").textContent = money(total);
+    $("checkoutBtn").disabled = !lines.length;
+  }
+
+  function refreshCart() {
+    const count = cart.reduce((s, c) => s + c.qty, 0);
+    $("cartCount").textContent = count;
+    renderCart();
+    renderProducts();
+  }
+
+  function openDrawer(open) {
+    $("drawer").classList.toggle("open", open);
+    $("scrim").classList.toggle("open", open);
+  }
+  $("openCart").addEventListener("click", () => { renderCart(); openDrawer(true); });
+  $("closeCart").addEventListener("click", () => openDrawer(false));
+  $("scrim").addEventListener("click", () => openDrawer(false));
+
+  // Checkout
+  const dialog = $("checkoutDialog");
+  const form = $("checkoutForm");
+  $("checkoutBtn").addEventListener("click", () => {
+    $("checkoutForm").hidden = false;
+    $("confirmBody").hidden = true;
+    $("formError").hidden = true;
+    dialog.showModal();
+  });
+  $("cancelCheckout").addEventListener("click", () => dialog.close());
+
+  function makeOrderNumber() {
+    const part = Date.now().toString(36).slice(-4).toUpperCase();
+    const rand = Math.random().toString(36).slice(2, 5).toUpperCase();
+    return "PL-" + part + rand;
+  }
+
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const name = String(data.get("name") || "").trim();
+    const phone = String(data.get("phone") || "").trim();
+    const address = String(data.get("address") || "").trim();
+    const err = $("formError");
+    if (!name || !phone || !address) {
+      err.textContent = "Please fill in your name, phone number and delivery address.";
+      err.hidden = false;
+      return;
+    }
+    const lines = cartLines();
+    if (!lines.length) return;
+    const total = lines.reduce((s, l) => s + l.subtotal, 0);
+    const orderNo = makeOrderNumber();
+
+    const itemText = lines.map(l => "- " + l.product.name + " x" + l.qty + " = " + money(l.subtotal)).join("\n");
+    const message =
+      "Hello Preshy's Luxury, I want to place an order.\n\n" +
+      "Order number: " + orderNo + "\n" +
+      itemText + "\n\n" +
+      "Total: " + money(total) + "\n" +
+      "Name: " + name + "\n" +
+      "Phone: " + phone + "\n" +
+      "Delivery address: " + address + "\n\n" +
+      "I will make payment to the account below and send you the receipt.";
+
+    showConfirmation(orderNo, total, message);
+  });
+
+  function showConfirmation(orderNo, total, message) {
+    form.hidden = true;
+    const body = $("confirmBody");
+    body.textContent = "";
+    body.hidden = false;
+
+    const h = document.createElement("h2");
+    h.textContent = "Order " + orderNo;
+    const t = document.createElement("p");
+    t.textContent = "Total to pay: " + money(total);
+
+    const bank = document.createElement("div");
+    bank.className = "bank";
+    const lines = [
+      ["Bank", S.bank.bankName],
+      ["Account name", S.bank.accountName],
+      ["Account number", S.bank.accountNumber]
+    ];
+    lines.forEach(([k, v]) => {
+      const p = document.createElement("p");
+      const strong = document.createElement("strong");
+      strong.textContent = k + ": ";
+      p.append(strong, document.createTextNode(v));
+      bank.appendChild(p);
+    });
+
+    const note = document.createElement("p");
+    note.textContent = "Make your payment, then tap the button below to send your order and receipt to us on WhatsApp. Keep your order number.";
+
+    const actions = document.createElement("div");
+    actions.className = "dialog-actions";
+    const wa = document.createElement("a");
+    wa.className = "button gold";
+    wa.href = "https://wa.me/" + S.whatsapp + "?text=" + encodeURIComponent(message);
+    wa.target = "_blank";
+    wa.rel = "noopener";
+    wa.textContent = "Send order on WhatsApp";
+    const done = document.createElement("button");
+    done.type = "button";
+    done.className = "ghost";
+    done.textContent = "Done";
+    done.addEventListener("click", () => {
+      cart = []; saveCart(); refreshCart(); dialog.close(); openDrawer(false);
+    });
+    actions.append(wa, done);
+
+    body.append(h, t, bank, note, actions);
+  }
+
+  // Start
+  renderFilters();
+  refreshCart();
+})();
+</script>
+</body>
+</html>
